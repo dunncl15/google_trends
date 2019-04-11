@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Grid from './components/Grid/Grid';
+import './index.scss';
 
 class App extends React.Component {
   render() {
-    return <div>App</div>;
+    return (
+      <>
+        <Grid />
+      </>
+    );
   }
 }
 
