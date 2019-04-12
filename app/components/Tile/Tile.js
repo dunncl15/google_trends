@@ -9,18 +9,25 @@ class Tile extends Component {
       currentText: '',
       charIndex: 0,
       intervalId: null,
+      backgroundColor: props.color,
     };
   }
 
   componentDidMount() {
-    const intervalId = setInterval(() => this.animateText(), 500);
-    this.setState(() => ({ intervalId }));
+    this.animationHandler(this.props.text);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.text && !this.state.text) {
+    if (prevState.currentText && !this.state.currentText) {
       clearInterval(this.state.intervalId);
+      const newAnimal = this.props.getNewAnimal();
+      this.animationHandler(newAnimal);
     }
+  }
+
+  animationHandler(text) {
+    const intervalId = setInterval(() => this.animateText(text), 500);
+    this.setState(() => ({ intervalId }));
   }
 
   capitilize(text) {
@@ -28,30 +35,35 @@ class Tile extends Component {
     return first + text.slice(1);
   }
 
-  animateText() {
-    const animal = this.capitilize(this.props.text);
+  animateText(text) {
+    const animal = this.capitilize(text);
     if (this.state.charIndex < animal.length) {
       this.setState(({ currentText, charIndex }) => ({
         currentText: (currentText += animal.charAt(charIndex)),
         charIndex: charIndex + 1,
       }));
     } else {
-      // ANIMATION COMPLETE
-      // Clear current interval, reset state, set previousText to currentText
-      // Get new animal name
-      // Get new tile color
-      // Transition tile color
+      this.reset();
     }
   }
 
+  reset() {
+    this.setState(({ currentText }) => ({
+      previousText: currentText,
+      currentText: '',
+      charIndex: 0,
+      backgroundColor: this.props.getNewColor(),
+    }));
+  }
+
   render() {
-    const { color, width, height } = this.props;
-    const { currentText } = this.state;
+    const { width, height } = this.props;
+    const { backgroundColor, currentText } = this.state;
     return (
       <div
         className="tile"
         style={{
-          backgroundColor: color,
+          backgroundColor,
           height,
           width,
         }}
