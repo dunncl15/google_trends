@@ -17,6 +17,8 @@ class Grid extends Component {
       ],
       animalsInGrid: [],
     };
+    this.getNewAnimal = this.getNewAnimal.bind(this);
+    this.getNewColor = this.getNewColor.bind(this);
   }
 
   componentDidMount() {
