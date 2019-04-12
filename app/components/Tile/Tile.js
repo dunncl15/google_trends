@@ -5,11 +5,13 @@ class Tile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      previousText: '',
       currentText: '',
       charIndex: 0,
       intervalId: null,
+      previousColor: '',
       backgroundColor: props.getNewColor(),
+      previousTransition: '',
+      transition: '',
     };
   }
 
@@ -34,6 +36,15 @@ class Tile extends Component {
     return first + text.slice(1);
   }
 
+  getUniqueValue(key, helper) {
+    const { [key]: prop } = this.state;
+    let newVal = helper();
+    while (prop === newVal) {
+      newVal = helper();
+    }
+    return newVal;
+  }
+
   animateText(text) {
     const animal = this.capitilize(text);
     if (this.state.charIndex < animal.length) {
@@ -42,33 +53,50 @@ class Tile extends Component {
         charIndex: charIndex + 1,
       }));
     } else {
-      clearInterval(this.state.intervalId);
-      setTimeout(() => this.reset(), 1000);
+      this.setState(
+        () => ({ doneTyping: true }),
+        () => {
+          clearInterval(this.state.intervalId);
+          setTimeout(() => this.reset(), 1000);
+        }
+      );
     }
   }
 
   reset() {
-    this.setState(({ currentText }) => ({
-      previousText: currentText,
+    const { getTransition, getNewColor } = this.props;
+    this.setState(({ backgroundColor, transition }) => ({
       currentText: '',
       charIndex: 0,
-      backgroundColor: this.props.getNewColor(),
+      previousColor: backgroundColor,
+      backgroundColor: this.getUniqueValue('backgroundColor', getNewColor),
+      previousTransition: transition,
+      transition: this.getUniqueValue('transition', getTransition),
+      doneTyping: false,
     }));
   }
 
   render() {
     const { width, height } = this.props;
-    const { backgroundColor, currentText } = this.state;
+    const {
+      previousColor,
+      backgroundColor,
+      currentText,
+      doneTyping,
+      transition,
+    } = this.state;
+
     return (
-      <div
-        className="tile"
-        style={{
-          backgroundColor,
-          height,
-          width,
-        }}
-      >
-        <span className="tile-text">{currentText}</span>
+      <div className="tile-container" style={{ height, width }}>
+        <div
+          className={`tile ${!doneTyping ? 'current' : ''}`}
+          style={{ backgroundColor: previousColor }}
+        >
+          <span className="tile-text">{currentText}</span>
+        </div>
+        <div className={`tile ${transition}`} style={{ backgroundColor }}>
+          <span className="tile-text">{currentText}</span>
+        </div>
       </div>
     );
   }
