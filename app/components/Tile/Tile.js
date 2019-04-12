@@ -9,7 +9,7 @@ class Tile extends Component {
       currentText: '',
       charIndex: 0,
       intervalId: null,
-      backgroundColor: props.color,
+      backgroundColor: props.getNewColor(),
     };
   }
 
@@ -19,7 +19,6 @@ class Tile extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentText && !this.state.currentText) {
-      clearInterval(this.state.intervalId);
       const newAnimal = this.props.getNewAnimal();
       this.animationHandler(newAnimal);
     }
@@ -43,7 +42,8 @@ class Tile extends Component {
         charIndex: charIndex + 1,
       }));
     } else {
-      this.reset();
+      clearInterval(this.state.intervalId);
+      setTimeout(() => this.reset(), 1000);
     }
   }
 
