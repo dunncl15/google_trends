@@ -1,13 +1,51 @@
-.tile {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.tile-container {
+  position: relative;
   color: #fff;
   font-family: 'Roboto', sans-serif;
 
-  .tile-text {
-    border-right: 0.15em solid #fff;
-    animation: blink 0.75s step-end infinite;
+  .tile {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+    .tile-text {
+      animation: blink 0.75s step-end infinite;
+      border-right: 2px solid #fff;
+      padding-right: 2px;
+      text-shadow: 0px 1px 1px rgb(97, 97, 97);
+    }
+
+    &.current {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &.from-top {
+      top: 0;
+      width: 100%;
+      animation: height 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
+    }
+
+    &.from-bottom {
+      bottom: 0;
+      width: 100%;
+      animation: height 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
+    }
+
+    &.from-left {
+      left: 0;
+      height: 100%;
+      animation: width 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
+    }
+    &.from-right {
+      right: 0;
+      height: 100%;
+      animation: width 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
+    }
   }
 }
 
@@ -18,5 +56,23 @@
   }
   50% {
     border-color: #fff;
+  }
+}
+
+@keyframes height {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
+@keyframes width {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
   }
 }
