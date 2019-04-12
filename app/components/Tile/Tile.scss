@@ -3,4 +3,20 @@
   justify-content: center;
   align-items: center;
   color: #fff;
+  font-family: 'Roboto', sans-serif;
+
+  .tile-text {
+    border-right: 0.15em solid #fff;
+    animation: blink 0.75s step-end infinite;
+  }
+}
+
+@keyframes blink {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #fff;
+  }
 }
