@@ -23,19 +23,26 @@ class Grid extends Component {
     this.setAnimalsInGrid();
   }
 
-  handleChange(key) {
-    const { [key]: property } = this.state;
-    const i = Math.floor(Math.random() * property.length);
-    return property[i];
+  randomizer(arr) {
+    const i = Math.floor(Math.random() * arr.length);
+    return arr[i];
+  }
+
+  getNewAnimal() {
+    return this.randomizer(animals);
+  }
+
+  getNewColor() {
+    return this.randomizer(this.state.colors);
   }
 
   setAnimalsInGrid() {
     const { animals, gridSize } = this.state;
     const size = gridSize ** 2;
     const arr = [];
-    for (var i = 0; i < size; i++) {
-      const index = Math.floor(Math.random() * animals.length);
-      arr.push(animals[index]);
+    for (let i = 0; i < size; i++) {
+      const animal = this.randomizer(animals);
+      arr.push(animal);
     }
     this.setState(() => ({ animalsInGrid: arr }));
   }
@@ -47,9 +54,11 @@ class Grid extends Component {
         <Tile
           key={`cell-${i}`}
           text={name}
-          color={this.handleChange('colors')}
-          width={window.innerWidth / gridSize}
-          height={window.innerHeight / gridSize}
+          color={this.getNewColor()}
+          width={`${(1 / gridSize) * 100}%`}
+          height={`${(1 / gridSize) * 100}%`}
+          getNewAnimal={this.getNewAnimal}
+          getNewColor={this.getNewColor}
         />
       );
     });
