@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import animals from '../../../animal_names.json';
 import Tile from '../Tile/Tile';
+import Button from '../Button/Button';
 import './Grid.scss';
 
 class Grid extends Component {
@@ -8,6 +9,7 @@ class Grid extends Component {
     super();
     this.state = {
       gridSize: 5,
+      maxSize: 10,
       animals,
       colors: [
         'rgb(250, 187, 5)', // yellow
@@ -19,6 +21,7 @@ class Grid extends Component {
     };
     this.getNewAnimal = this.getNewAnimal.bind(this);
     this.getNewColor = this.getNewColor.bind(this);
+    this.setGridSize = this.setGridSize.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +39,10 @@ class Grid extends Component {
 
   getNewColor() {
     return this.randomizer(this.state.colors);
+  }
+
+  setGridSize(size) {
+    this.setState(() => ({ gridSize: size }));
   }
 
   setAnimalsInGrid() {
@@ -56,7 +63,6 @@ class Grid extends Component {
         <Tile
           key={`cell-${i}`}
           text={name}
-          color={this.getNewColor()}
           width={`${(1 / gridSize) * 100}%`}
           height={`${(1 / gridSize) * 100}%`}
           getNewAnimal={this.getNewAnimal}
@@ -67,7 +73,12 @@ class Grid extends Component {
   }
 
   render() {
-    return <div className="grid">{this.renderTiles()}</div>;
+    return (
+      <div className="grid">
+        <Button handleClick={this.setGridSize} maxSize={this.state.maxSize} />
+        {this.renderTiles()}
+      </div>
+    );
   }
 }
 
