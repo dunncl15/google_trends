@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import animals from '../../../animal_names.json';
 import Tile from '../Tile/Tile';
-import Button from '../Button/Button';
+import ButtonRender from '../Buttons/ButtonRender';
+import IconButton from '../Buttons/IconButton/IconButton';
+import GridButton from '../Buttons/GridButton/GridButton';
 import './Grid.scss';
 
 class Grid extends Component {
@@ -18,9 +20,12 @@ class Grid extends Component {
         'rgb(66, 133, 244)', // blue
       ],
       animalsInGrid: [],
+      transitions: ['from-top', 'from-right', 'from-bottom', 'from-left'],
+      showGridIcon: true,
     };
     this.getNewAnimal = this.getNewAnimal.bind(this);
     this.getNewColor = this.getNewColor.bind(this);
+    this.getTransition = this.getTransition.bind(this);
     this.setGridSize = this.setGridSize.bind(this);
   }
 
@@ -39,6 +44,10 @@ class Grid extends Component {
 
   getNewColor() {
     return this.randomizer(this.state.colors);
+  }
+
+  getTransition() {
+    return this.randomizer(this.state.transitions);
   }
 
   setGridSize(size) {
@@ -67,6 +76,7 @@ class Grid extends Component {
           height={`${(1 / gridSize) * 100}%`}
           getNewAnimal={this.getNewAnimal}
           getNewColor={this.getNewColor}
+          getTransition={this.getTransition}
         />
       );
     });
@@ -75,7 +85,28 @@ class Grid extends Component {
   render() {
     return (
       <div className="grid">
-        <Button handleClick={this.setGridSize} maxSize={this.state.maxSize} />
+        {/* <ButtonRender
+          render={({ hovering, onEnter, onLeave }) => {
+            <IconButton
+              hovering={hovering}
+              onEnter={onEnter}
+              onLeave={onLeave}
+              handleClick={this.toggleGrid}
+              // handleClick={this.setGridSize}
+            />;
+          }}
+        />
+        <ButtonRender
+          render={({ hovering, onEnter, onLeave }) => {
+            <GridButton
+              hovering={hovering}
+              onEnter={onEnter}
+              onLeave={onLeave}
+              maxSize={this.state.maxSize}
+              handleClick={this.setGridSize}
+            />;
+          }}
+        /> */}
         {this.renderTiles()}
       </div>
     );
