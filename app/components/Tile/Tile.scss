@@ -2,6 +2,7 @@
   position: relative;
   color: #fff;
   font-family: 'Roboto', sans-serif;
+  overflow: hidden;
 
   .tile {
     position: absolute;
@@ -16,35 +17,23 @@
       border-right: 2px solid #fff;
       padding-right: 2px;
       text-shadow: 0px 1px 1px rgb(97, 97, 97);
-    }
-
-    &.current {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      word-wrap: normal;
     }
 
     &.from-top {
-      top: 0;
-      width: 100%;
-      animation: height 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
+      animation: fromTop 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
     }
 
     &.from-bottom {
-      bottom: 0;
-      width: 100%;
-      animation: height 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
+      animation: fromBottom 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
     }
 
     &.from-left {
-      left: 0;
-      height: 100%;
-      animation: width 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
+      animation: fromLeft 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
     }
+
     &.from-right {
-      right: 0;
-      height: 100%;
-      animation: width 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
+      animation: fromRight 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
     }
   }
 }
@@ -59,20 +48,35 @@
   }
 }
 
-@keyframes height {
+@keyframes fromTop {
   from {
-    height: 0;
+    top: -100%;
   }
   to {
-    height: 100%;
+    top: 0;
   }
 }
-
-@keyframes width {
+@keyframes fromBottom {
   from {
-    width: 0;
+    bottom: -100%;
   }
   to {
-    width: 100%;
+    bottom: 0;
+  }
+}
+@keyframes fromLeft {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 0;
+  }
+}
+@keyframes fromRight {
+  from {
+    right: -100%;
+  }
+  to {
+    right: 0;
   }
 }

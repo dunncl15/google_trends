@@ -53,13 +53,8 @@ class Tile extends Component {
         charIndex: charIndex + 1,
       }));
     } else {
-      this.setState(
-        () => ({ doneTyping: true }),
-        () => {
-          clearInterval(this.state.intervalId);
-          setTimeout(() => this.reset(), 1000);
-        }
-      );
+      clearInterval(this.state.intervalId);
+      setTimeout(() => this.reset(), 1000);
     }
   }
 
@@ -72,7 +67,6 @@ class Tile extends Component {
       backgroundColor: this.getUniqueValue('backgroundColor', getNewColor),
       previousTransition: transition,
       transition: this.getUniqueValue('transition', getTransition),
-      doneTyping: false,
     }));
   }
 
@@ -82,16 +76,12 @@ class Tile extends Component {
       previousColor,
       backgroundColor,
       currentText,
-      doneTyping,
       transition,
     } = this.state;
 
     return (
       <div className="tile-container" style={{ height, width }}>
-        <div
-          className={`tile ${!doneTyping ? 'current' : ''}`}
-          style={{ backgroundColor: previousColor }}
-        >
+        <div className="tile" style={{ backgroundColor: previousColor }}>
           <span className="tile-text">{currentText}</span>
         </div>
         <div className={`tile ${transition}`} style={{ backgroundColor }}>
