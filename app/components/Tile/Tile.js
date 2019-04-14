@@ -21,9 +21,15 @@ class Tile extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentText && !this.state.currentText) {
+      clearTimeout(this.timeout);
       const newAnimal = this.props.getNewAnimal();
       this.animationHandler(newAnimal);
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
+    if (this.timeout) clearTimeout(this.timeout);
   }
 
   animationHandler(text) {
@@ -46,6 +52,7 @@ class Tile extends Component {
   }
 
   animateText(text) {
+    const { intervalId } = this.state;
     const animal = this.capitilize(text);
     if (this.state.charIndex < animal.length) {
       this.setState(({ currentText, charIndex }) => ({
@@ -53,8 +60,8 @@ class Tile extends Component {
         charIndex: charIndex + 1,
       }));
     } else {
-      clearInterval(this.state.intervalId);
-      setTimeout(() => this.reset(), 1000);
+      clearInterval(intervalId);
+      this.timeout = setTimeout(() => this.reset(), 1000);
     }
   }
 
@@ -80,12 +87,22 @@ class Tile extends Component {
     } = this.state;
 
     return (
-      <div className="tile-container" style={{ height, width }}>
+      <div
+        className="tile-container"
+        style={{ height, width }}
+        ref={node => (this.tile = node)}
+      >
         <div className="tile" style={{ backgroundColor: previousColor }}>
-          <span className="tile-text">{currentText}</span>
+          <span className="tile-text">
+            {currentText}
+            <span className="cursor" />
+          </span>
         </div>
         <div className={`tile ${transition}`} style={{ backgroundColor }}>
-          <span className="tile-text">{currentText}</span>
+          <span className="tile-text">
+            {currentText}
+            <span className="cursor" />
+          </span>
         </div>
       </div>
     );
