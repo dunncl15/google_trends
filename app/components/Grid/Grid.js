@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import animals from '../../../animal_names.json';
 import Tile from '../Tile/Tile';
-import ButtonRender from '../Buttons/ButtonRender';
+import SideBar from '../Sidebar/Sidebar';
 import IconButton from '../Buttons/IconButton/IconButton';
-import GridButton from '../Buttons/GridButton/GridButton';
 import './Grid.scss';
 
 class Grid extends Component {
@@ -21,16 +20,22 @@ class Grid extends Component {
       ],
       animalsInGrid: [],
       transitions: ['from-top', 'from-right', 'from-bottom', 'from-left'],
-      showGridIcon: true,
+      showSidebar: false,
     };
     this.getNewAnimal = this.getNewAnimal.bind(this);
     this.getNewColor = this.getNewColor.bind(this);
     this.getTransition = this.getTransition.bind(this);
     this.setGridSize = this.setGridSize.bind(this);
+    this.toggleSidebar = this.toggleSidebar.bind(this);
   }
 
   componentDidMount() {
     this.setAnimalsInGrid();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.gridSize !== this.state.gridSize)
+      this.setAnimalsInGrid(this.state.gridSize);
   }
 
   randomizer(arr) {
@@ -50,12 +55,17 @@ class Grid extends Component {
     return this.randomizer(this.state.transitions);
   }
 
-  setGridSize(size) {
-    this.setState(() => ({ gridSize: size }));
+  setGridSize(e) {
+    const { value } = e.target;
+    this.setState(() => ({ gridSize: parseInt(value) }));
   }
 
-  setAnimalsInGrid() {
-    const { animals, gridSize } = this.state;
+  toggleSidebar() {
+    this.setState(({ showSidebar }) => ({ showSidebar: !showSidebar }));
+  }
+
+  setAnimalsInGrid(gridSize = 5) {
+    const { animals } = this.state;
     const size = gridSize ** 2;
     const arr = [];
     for (let i = 0; i < size; i++) {
@@ -83,31 +93,19 @@ class Grid extends Component {
   }
 
   render() {
+    const { showSidebar, gridSize } = this.state;
     return (
-      <div className="grid">
-        {/* <ButtonRender
-          render={({ hovering, onEnter, onLeave }) => {
-            <IconButton
-              hovering={hovering}
-              onEnter={onEnter}
-              onLeave={onLeave}
-              handleClick={this.toggleGrid}
-              // handleClick={this.setGridSize}
-            />;
-          }}
+      <div className="wrapper">
+        <IconButton show={!showSidebar} handleClick={this.toggleSidebar}>
+          <i className="fas fa-bars" />
+        </IconButton>
+        <SideBar
+          show={showSidebar}
+          handleClick={this.toggleSidebar}
+          handleSelect={this.setGridSize}
+          size={gridSize}
         />
-        <ButtonRender
-          render={({ hovering, onEnter, onLeave }) => {
-            <GridButton
-              hovering={hovering}
-              onEnter={onEnter}
-              onLeave={onLeave}
-              maxSize={this.state.maxSize}
-              handleClick={this.setGridSize}
-            />;
-          }}
-        /> */}
-        {this.renderTiles()}
+        <div className="grid">{this.renderTiles()}</div>
       </div>
     );
   }
