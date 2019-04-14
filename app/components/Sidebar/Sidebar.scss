@@ -1,0 +1,39 @@
+.wrapper {
+  .sidebar {
+    position: relative;
+    background-color: #333;
+    color: #fff;
+    width: 0px;
+    font-family: 'Lato', sans-serif;
+    transition: width 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
+
+    h3,
+    label,
+    select {
+      display: none;
+    }
+
+    &.show {
+      padding: 15px;
+      max-width: 250px;
+      min-width: 200px;
+      width: 225px;
+      transition: width 600ms cubic-bezier(0.06, 0.74, 0.24, 1);
+
+      h3,
+      label,
+      select {
+        display: block;
+      }
+
+      h3 {
+        margin-top: 45px;
+        text-align: center;
+      }
+
+      select {
+        margin-left: 8px;
+      }
+    }
+  }
+}
