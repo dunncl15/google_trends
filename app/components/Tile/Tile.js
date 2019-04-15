@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './Tile.scss';
 
 class Tile extends Component {
@@ -108,5 +109,14 @@ class Tile extends Component {
     );
   }
 }
+
+Tile.propTypes = {
+  getNewAnimal: PropTypes.func.isRequired,
+  getNewColor: PropTypes.func.isRequired,
+  getTransition: PropTypes.func.isRequired,
+  height: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  width: PropTypes.string.isRequired,
+};
 
 export default Tile;
