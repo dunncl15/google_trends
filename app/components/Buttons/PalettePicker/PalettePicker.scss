@@ -1,0 +1,28 @@
+.palettes {
+  margin-top: 25px;
+  z-index: 1;
+
+  .palette-row {
+    display: flex;
+    align-items: center;
+    height: 20px;
+    margin: 3px 0;
+    max-width: 200px;
+
+    &.active {
+      &:after {
+        content: '\002714';
+        position: absolute;
+        right: 12px;
+        color: rgb(52, 168, 82);
+      }
+    }
+
+    .palette-cell {
+      height: 15px;
+      width: 25%;
+      display: inline-block;
+      cursor: pointer;
+    }
+  }
+}
