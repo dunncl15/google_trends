@@ -79,7 +79,7 @@ class Tile extends Component {
   }
 
   render() {
-    const { width, height } = this.props;
+    const { width, height, fontSize } = this.props;
     const {
       previousColor,
       backgroundColor,
@@ -88,18 +88,20 @@ class Tile extends Component {
     } = this.state;
 
     return (
-      <div
-        className="tile-container"
-        style={{ height, width }}
-        ref={node => (this.tile = node)}
-      >
-        <div className="tile" style={{ backgroundColor: previousColor }}>
+      <div className="tile-container" style={{ height, width }}>
+        <div
+          className="tile"
+          style={{ backgroundColor: previousColor, fontSize }}
+        >
           <span className="tile-text">
             {currentText}
             <span className="cursor" />
           </span>
         </div>
-        <div className={`tile ${transition}`} style={{ backgroundColor }}>
+        <div
+          className={`tile ${transition}`}
+          style={{ backgroundColor, fontSize }}
+        >
           <span className="tile-text">
             {currentText}
             <span className="cursor" />

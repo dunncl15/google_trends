@@ -12,6 +12,18 @@ class Grid extends Component {
     this.state = {
       gridSize: 5,
       maxSize: 10,
+      fontSizes: {
+        1: '9vw',
+        2: '6vw',
+        3: '3vw',
+        4: '2.5vw',
+        5: '2vw',
+        6: '1.75vw',
+        7: '1.5vw',
+        8: '1.25vw',
+        9: '1vw',
+        10: '1vw',
+      },
       animals,
       paletteIndex: 0,
       animalsInGrid: [],
@@ -78,7 +90,9 @@ class Grid extends Component {
   }
 
   renderTiles() {
-    const { animalsInGrid, gridSize } = this.state;
+    const { animalsInGrid, gridSize, fontSizes } = this.state;
+    const fontSize = fontSizes[gridSize];
+
     return animalsInGrid.map((name, i) => {
       return (
         <Tile
@@ -86,6 +100,7 @@ class Grid extends Component {
           text={name}
           width={`${(1 / gridSize) * 100}%`}
           height={`${(1 / gridSize) * 100}%`}
+          fontSize={fontSize}
           getNewAnimal={this.getNewAnimal}
           getNewColor={this.getNewColor}
           getTransition={this.getTransition}

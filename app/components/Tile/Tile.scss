@@ -3,7 +3,6 @@
   color: #fff;
   font-family: 'Lato', sans-serif;
   overflow: hidden;
-  font-size: 2rem;
 
   .tile {
     position: absolute;
@@ -11,7 +10,6 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    font-size: 2vw;
 
     .tile-text {
       animation: blink 0.75s step-end infinite;
