@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import animals from '../../../animal_names.json';
+import colors from '../../../colors.json';
 import Tile from '../Tile/Tile';
 import SideBar from '../Sidebar/Sidebar';
 import IconButton from '../Buttons/IconButton/IconButton';
@@ -12,12 +13,7 @@ class Grid extends Component {
       gridSize: 5,
       maxSize: 10,
       animals,
-      colors: [
-        'rgb(250, 187, 5)', // yellow
-        'rgb(52, 168, 82)', // green
-        'rgb(234, 67, 53)', // red
-        'rgb(66, 133, 244)', // blue
-      ],
+      paletteIndex: 0,
       animalsInGrid: [],
       transitions: ['from-top', 'from-right', 'from-bottom', 'from-left'],
       showSidebar: false,
@@ -26,6 +22,7 @@ class Grid extends Component {
     this.getNewColor = this.getNewColor.bind(this);
     this.getTransition = this.getTransition.bind(this);
     this.setGridSize = this.setGridSize.bind(this);
+    this.selectPalette = this.selectPalette.bind(this);
     this.toggleSidebar = this.toggleSidebar.bind(this);
   }
 
@@ -48,7 +45,8 @@ class Grid extends Component {
   }
 
   getNewColor() {
-    return this.randomizer(this.state.colors);
+    const { paletteIndex } = this.state;
+    return this.randomizer(colors[paletteIndex]);
   }
 
   getTransition() {
@@ -58,6 +56,10 @@ class Grid extends Component {
   setGridSize(e) {
     const { value } = e.target;
     this.setState(() => ({ gridSize: parseInt(value) }));
+  }
+
+  selectPalette(i) {
+    this.setState(() => ({ paletteIndex: i }));
   }
 
   toggleSidebar() {
@@ -93,7 +95,7 @@ class Grid extends Component {
   }
 
   render() {
-    const { showSidebar, gridSize } = this.state;
+    const { showSidebar, gridSize, paletteIndex } = this.state;
     return (
       <div className="wrapper">
         <IconButton show={!showSidebar} handleClick={this.toggleSidebar}>
@@ -103,7 +105,10 @@ class Grid extends Component {
           show={showSidebar}
           handleClick={this.toggleSidebar}
           handleSelect={this.setGridSize}
+          selectPalette={this.selectPalette}
           size={gridSize}
+          palettes={colors}
+          activePaletteIndex={paletteIndex}
         />
         <div className="grid">{this.renderTiles()}</div>
       </div>
